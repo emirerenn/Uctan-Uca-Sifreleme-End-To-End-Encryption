@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş</title>
+</head>
+
+<body>
+    <h1> Giriş sayfasına hoş geldiniz! </h1>
+
+    <div style="display: flex; flex-direction: column; width: 200px; gap: 10px;">
+        <input type="text" id="email" placeholder="E-posta Adresi">
+        <input type="password" id="password" placeholder="Parola">
+
+        <button id="loginBtn">Giriş Yap</button>
+    </div>
+
+    <script>
+        document.getElementById("loginBtn").addEventListener("click", () => {
+            fetch("/login", {
+                method: "POST",
+                body: JSON.stringify({
+                    email: document.getElementById("email").value,
+                    password: document.getElementById("password").value
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then((data) => {
+                    alert(data.message);
+                    if (data.status == "ok") {
+                        window.location.href = "/";
+                    }
+                })
+                .catch((err) => {
+                    alert("Fetch sırasında hata oluştu: " + err);
+                });
+        });
+    </script>
+</body>
+
+</html>
